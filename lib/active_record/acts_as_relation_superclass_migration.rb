@@ -17,6 +17,15 @@ module ActiveRecord
 
           td.integer "#{association_name}_id"
           td.string  "#{association_name}_type"
+          td.index   "#{association_name}_id"
+          td.index   "#{association_name}_type"
+        end
+
+        if superclass = options[:as_relation_subclass_of]
+          association_name = ActiveRecord::Base.acts_as_association_name(superclass)
+
+          td.integer "#{association_name}_id"
+          td.index   "#{association_name}_id"
         end
 
         yield td if block_given?
