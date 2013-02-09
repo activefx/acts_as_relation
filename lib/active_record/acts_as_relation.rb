@@ -5,28 +5,6 @@ module ActiveRecord
   module ActsAsRelation
     extend ActiveSupport::Concern
 
-    module AccessMethods
-      protected
-      def define_acts_as_accessors(attribs, model_name)
-        attribs.each do |attrib|
-          code = <<-EndCode
-            def #{attrib}
-              #{model_name}.#{attrib}
-            end
-
-            def #{attrib}=(value)
-              #{model_name}.#{attrib} = value
-            end
-
-            def #{attrib}?
-              #{model_name}.#{attrib}?
-            end
-          EndCode
-          class_eval code, __FILE__, __LINE__
-        end
-      end
-    end
-
     module ClassMethods
       def acts_as(model_name, scope=nil, options={})
         if scope.is_a?(Hash)
@@ -65,13 +43,6 @@ module ActiveRecord
               base.has_one name.to_sym, scope, has_one_options
               base.validate "#{name}_must_be_valid".to_sym
               base.alias_method_chain name.to_sym, :autobuild
-
-              base.extend ActiveRecord::ActsAsRelation::AccessMethods
-              attributes = class_name.constantize.content_columns.map(&:name)
-              associations = class_name.constantize.reflect_on_all_associations.map(&:name)
-              ignored = ["created_at", "updated_at", "#{association_name}_id", "#{association_name}_type", "#{association_name}"]
-              attributes_to_delegate = attributes + associations - ignored
-              base.send :define_acts_as_accessors, attributes_to_delegate, name
 
               if defined?(::ProtectedAttributes)
                 base.attr_accessible.update(class_name.constantize.attr_accessible)
