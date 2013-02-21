@@ -147,11 +147,11 @@ module ActiveRecord
             def specific
               self.class.acts_as_superclass_of.collect do |assoc_name,options|
                 if options[:type] == :one
-                  [send(options[:as]).first]
+                  send(options[:as])
                 else
                   send(options[:as]).to_a
                 end
-              end.flatten
+              end.flatten.compact
             end
           end
         else
