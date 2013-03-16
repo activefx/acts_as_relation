@@ -147,7 +147,7 @@ module ActiveRecord
             def specific
               self.class.acts_as_superclass_of.collect do |assoc_name,options|
                 if options[:type] == :one
-                  send(options[:as])
+                  [send(options[:as])]
                 else
                   send(options[:as]).to_a
                 end
