@@ -93,7 +93,7 @@ module ActiveRecord
         end
 
         if options.fetch :auto_join, true
-          class_eval "default_scope -> { joins(:#{association_name}) }"
+          class_eval "default_scope -> { includes(:#{association_name}) }"
         end
 
         class_eval "default_scope -> { includes(:#{name}) }"
