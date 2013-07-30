@@ -96,8 +96,6 @@ module ActiveRecord
           class_eval "default_scope -> { includes(:#{association_name}) }"
         end
 
-        class_eval "default_scope -> { includes(:#{name}) }"
-
         code = <<-EndCode
           def acts_as_other_model?
             true
