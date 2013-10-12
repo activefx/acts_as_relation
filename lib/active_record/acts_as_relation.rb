@@ -81,7 +81,9 @@ module ActiveRecord
             define_method "#{association_name}_must_be_valid" do
               unless send(association_name).valid?
                 send(association_name).errors.each do |att, message|
+                  att = att.to_s.split('.').last
                   errors.add(att, message)
+                  errors.add("#{association_name}_attributes_#{att}", message)
                 end
               end
             end
