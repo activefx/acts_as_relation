@@ -36,6 +36,7 @@ module ActiveRecord
             :foreign_key => foreign_key,
             :autosave    => true,
             :validate    => options.fetch(:validate, false),
+            :inverse_of  => acts_as_association_name(self.name.singularize.underscore).to_sym,
           }
 
           acts_as_model.module_eval do
@@ -133,6 +134,7 @@ module ActiveRecord
             assoc_options[:class_name]  ||= assoc_name.to_s.singularize.camelize
             options[:as] = (assoc_options.delete(:as) || :"as_#{assoc_name}")
             assoc_options[:foreign_key] ||= "#{acts_as_association_name(self.name.singularize.underscore)}_id"
+            assoc_options[:inverse_of]  ||= acts_as_association_name(self.name.singularize.underscore).to_sym
             type = (assoc_options.delete(:type) || :many)
             unless [:one,:many].include?(type)
               raise "invalid type '#{type.inspect}' of subclass association: must be either :one or :many"
