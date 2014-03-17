@@ -63,12 +63,10 @@ module ActiveRecord
             end
 
             define_method :method_missing do |method, *arg, &block|
-              begin
-                raise NoMethodError if method.to_s == 'id' || method.to_s == association_name
-
-                send(association_name).send(method, *arg, &block)
-              rescue NoMethodError
+              if (method.to_s == 'id' || method.to_s == association_name) || !send(association_name).respond_to?(method)
                 super(method, *arg, &block)
+              else
+                send(association_name).send(method, *arg, &block)
               end
             end
 

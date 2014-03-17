@@ -56,6 +56,11 @@ describe "has many submodels" do
       expect{ entity.non_existent_method }.to raise_error NoMethodError
     end
 
+    it "raises NoMethodError correctly for supermodel methods" do
+      expect{ entity.dummy_raise_method(nil) }
+        .to raise_error NoMethodError, /undefined method `dummy' for nil:NilClass/
+    end
+
     it "does not destroy the supermodel on destruction" do
       organization_id = entity.as_organization.id
       entity.destroy

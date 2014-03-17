@@ -187,8 +187,13 @@ describe "has one submodel" do
     expect(invalid_pen).to have(1).error_on :color
   end
 
-  it "raises NoMethodError for methods the do not exist on itself or the supermodel" do
+  it "raises NoMethodError for methods that do not exist on itself or the supermodel" do
     expect{ pen.non_existent_method }.to raise_error NoMethodError
+  end
+
+  it "raises NoMethodError correctly for supermodel methods" do
+    expect{ pen.dummy_raise_method(nil) }
+      .to raise_error NoMethodError, /undefined method `dummy' for nil:NilClass/
   end
 
   it "destroys the supermodel on destruction" do

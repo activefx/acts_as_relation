@@ -10,4 +10,9 @@ class Product < ActiveRecord::Base
   def parent_method
     "#{name} - #{price}"
   end
+
+  def dummy_raise_method(obj)
+    obj.dummy
+  end
+
 end

@@ -13,4 +13,8 @@ class Organization < ActiveRecord::Base
   def parent_method
     true
   end
+
+  def dummy_raise_method(obj)
+    obj.dummy
+  end
 end
