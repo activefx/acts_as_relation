@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 4) do
+ActiveRecord::Schema.define(version: 12) do
 
   create_table "pencils", force: true do |t|
     t.datetime "created_at"
@@ -27,8 +27,9 @@ ActiveRecord::Schema.define(version: 4) do
   end
 
   create_table "products", force: true do |t|
-    t.integer  "producible_id"
-    t.string   "producible_type"
+    t.integer  "as_product_id"
+    t.string   "as_product_type"
+    t.integer  "organization_id"
     t.string   "name"
     t.float    "price"
     t.integer  "store_id"
@@ -42,4 +43,29 @@ ActiveRecord::Schema.define(version: 4) do
     t.datetime "updated_at"
   end
 
+  create_table "generic_models", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "organizations", force: true do |t|
+    t.string "name"
+    t.integer "sales"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "functions", force: true do |t|
+    t.integer "as_organization_id"
+    t.string "category"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "entities", force: true do |t|
+    t.integer "as_organization_id"
+    t.string "structure"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 end

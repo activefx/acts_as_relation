@@ -2,6 +2,7 @@ require 'rspec'
 require 'sqlite3'
 require 'active_record'
 require 'active_support'
+require 'protected_attributes'
 
 require 'acts_as_relation'
 

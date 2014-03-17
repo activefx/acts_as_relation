@@ -95,14 +95,10 @@ module ActiveRecord
         end
 
         if options.fetch :auto_join, true
-          class_eval "default_scope -> { includes(:#{association_name}) }"
+          class_eval "default_scope -> { joins(:#{association_name}) }"
         end
 
         code = <<-EndCode
-          def acts_as_other_model?
-            true
-          end
-
           def acts_as_model_name
             :#{name}
           end
@@ -156,12 +152,10 @@ module ActiveRecord
           end
         else
           # normal mode: the superclass has_one specific association
-
           association_name = options[:as] || acts_as_association_name
-          dependent = options[:dependent] || :destroy
 
           code = <<-EndCode
-            belongs_to :#{association_name}, :polymorphic => true, :dependent => :#{dependent}
+            belongs_to :#{association_name}, :polymorphic => true
 
             def specific
               self.#{association_name}
@@ -176,6 +170,10 @@ module ActiveRecord
       def acts_as_association_name model_name=nil
         model_name ||= self.name
         "as_#{model_name.to_s.demodulize.singularize.underscore}"
+      end
+
+      def acts_as_other_model?
+        respond_to? :acts_as_model_name
       end
     end
   end

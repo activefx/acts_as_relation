@@ -1,9 +1,11 @@
 class Product < ActiveRecord::Base
-  acts_as_superclass as: 'producible'
+  acts_as_superclass
 
   belongs_to :store
 
   validates_presence_of :name, :price
+
+  attr_accessible :name, :price
 
   def parent_method
     "#{name} - #{price}"

@@ -7,8 +7,8 @@ describe "create_table acts_as_superclass" do
     Pen.attribute_names.should include("#{name}_type")
   end
 
-  it "when name passed creates foreign key and type columns with given name" do
-    Product.attribute_names.should include("producible_id")
-    Product.attribute_names.should include("producible_type")
-  end
+  # it "when name passed creates foreign key and type columns with given name" do
+  #   Product.attribute_names.should include("producible_id")
+  #   Product.attribute_names.should include("producible_type")
+  # end
 end
