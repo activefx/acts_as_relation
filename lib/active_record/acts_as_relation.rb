@@ -1,11 +1,12 @@
 module ActiveRecord
 
-  module ActsAsModules end
+  module ActsAsModules; end
 
   module ActsAsRelation
     extend ActiveSupport::Concern
 
     module ClassMethods
+
       def acts_as(model_name, scope=nil, options={})
         if scope.is_a?(Hash)
           options = scope
@@ -73,6 +74,34 @@ module ActiveRecord
             define_method 'respond_to?' do |method, include_private_methods = false|
               super(method, include_private_methods) || send(association_name).respond_to?(method, include_private_methods)
             end
+
+            define_method :parent_association_foreign_keys do
+              ( class_name.to_s.constantize.reflect_on_all_associations.map(&:name) -
+                [ association_name.to_sym ]
+              ).map{ |a| a.to_s + '_id' }
+            end
+
+            define_method :[] do |key|
+              if send(:parent_association_foreign_keys).include? key.to_s
+                send(association_name)[key]
+              else
+                super(key)
+              end
+            end
+
+            define_method :[]= do |key, value|
+              if send(:parent_association_foreign_keys).include? key.to_s
+                send(association_name)[key] = value
+              else
+                super(key, value)
+              end
+            end
+
+            define_method :is_a? do |klass|
+              klass == class_name.constantize ? true : super(klass)
+            end
+            alias_method :instance_of?, :is_a?
+            alias_method :kind_of?, :is_a?
 
             protected
 
@@ -173,9 +202,11 @@ module ActiveRecord
       def acts_as_other_model?
         respond_to? :acts_as_model_name
       end
-    end
-  end
-end
+
+    end # end Class Methods
+
+  end # end ActsAsRelation
+end # end ActiveRecord
 
 class ActiveRecord::Base
   include ActiveRecord::ActsAsRelation

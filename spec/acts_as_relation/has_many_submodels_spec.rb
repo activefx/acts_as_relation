@@ -3,6 +3,7 @@ require "spec_helper"
 describe "has many submodels" do
 
   let(:product) { Product.create name: 'money', price: 100.00 }
+  let(:pen) { Pen.create name: 'RedPen', price: 0.8, color: 'red' }
 
   context "with a has_one definition" do
 
@@ -21,6 +22,22 @@ describe "has many submodels" do
 
       it "returns the supermodel name for has_one submodel definitions" do
         expect(Entity.acts_as_model_name).to eq :organization
+      end
+
+    end
+
+    context "#is_a?" do
+
+      it "returns true when it is an instance of the same class" do
+        expect(entity.is_a? Entity).to be_true
+      end
+
+      it "returns true when it is an instance of the supermodel" do
+        expect(entity.is_a? Organization).to be_true
+      end
+
+      it "returns false for unrelated classes" do
+        expect(entity.is_a? String).to be_false
       end
 
     end
@@ -107,6 +124,11 @@ describe "has many submodels" do
         expect(entity.products).to include product
       end
 
+      it "inherits associations that work with submodel instances" do
+        entity.products << pen
+        expect(entity.products).to include pen
+      end
+
     end
 
   end
@@ -128,6 +150,22 @@ describe "has many submodels" do
 
       it "returns the supermodel name for has_many submodel definitions" do
         expect(Function.acts_as_model_name).to eq :organization
+      end
+
+    end
+
+    context "#is_a?" do
+
+      it "returns true when it is an instance of the same class" do
+        expect(function.is_a? Function).to be_true
+      end
+
+      it "returns true when it is an instance of the supermodel" do
+        expect(function.is_a? Organization).to be_true
+      end
+
+      it "returns false for unrelated classes" do
+        expect(function.is_a? String).to be_false
       end
 
     end
@@ -166,7 +204,7 @@ describe "has many submodels" do
     it "does not destroy the supermodel on destruction" do
       organization_id = function.as_organization.id
       function.destroy
-      expect{ Organization.find organization_id }.not_to raise_error ActiveRecord::RecordNotFound
+      expect{ Organization.find organization_id }.not_to raise_error
     end
 
     context "from the supermodel" do

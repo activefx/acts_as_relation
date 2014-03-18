@@ -1,0 +1,2 @@
+class BallpointPen < Pen
+end

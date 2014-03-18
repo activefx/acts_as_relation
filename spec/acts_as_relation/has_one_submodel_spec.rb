@@ -160,6 +160,40 @@ describe "has one submodel" do
 
   end
 
+  context "#is_a?" do
+
+    let(:ballpoint) { BallpointPen.new }
+
+    it "returns true when it is an instance of the same class" do
+      expect(pen.is_a? Pen).to be_true
+    end
+
+    it "returns true when it is an instance of the supermodel" do
+      expect(pen.is_a? Product).to be_true
+    end
+
+    it "returns true when it is an inherited instance of the same class" do
+      expect(ballpoint.is_a? Pen).to be_true
+    end
+
+    it "returns true when it is an inherited instance of the supermodel" do
+      expect(ballpoint.is_a? Product).to be_true
+    end
+
+    it "returns false for unrelated classes" do
+      expect(pen.is_a? String).to be_false
+    end
+
+    it "is aliased to kind_of?" do
+      expect(ballpoint.kind_of? Product).to be_true
+    end
+
+    it "is aliased to instance_of?" do
+      expect(ballpoint.instance_of? Product).to be_true
+    end
+
+  end
+
   it "can be persisted" do
     expect(pen.persisted?).to be_true
   end
