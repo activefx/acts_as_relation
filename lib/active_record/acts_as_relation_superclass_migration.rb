@@ -17,8 +17,7 @@ module ActiveRecord
 
           td.integer "#{association_name}_id"
           td.string  "#{association_name}_type"
-          td.index   "#{association_name}_id"
-          td.index   "#{association_name}_type"
+          td.index   [ "#{association_name}_id", "#{association_name}_type" ]
         end
 
         if superclass = options[:as_relation_subclass_of]
