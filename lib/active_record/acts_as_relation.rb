@@ -13,13 +13,6 @@ module ActiveRecord
           scope   = nil
         end
 
-        if options[:conditions]
-          ActiveSupport::Deprecation.warn(":conditions is no longer supported by acts_as. Please use `where()` instead. Example: `acts_as :person, -> { where(name: 'John') }`")
-        end
-        if options[:include]
-          ActiveSupport::Deprecation.warn(":include is no longer supported by acts_as. Please use `includes()` instead. Example: `acts_as :person, -> { includes(:friends) }`")
-        end
-
         name             = model_name.to_s.underscore.singularize
         class_name       = options[:class_name] || name.camelcase
         association_name = options[:as] || acts_as_association_name(name)
