@@ -64,7 +64,7 @@ module ActiveRecord
               end
             end
 
-            define_method 'respond_to?' do |method, include_private_methods = false|
+            define_method :respond_to? do |method, include_private_methods = false|
               super(method, include_private_methods) || send(association_name).respond_to?(method, include_private_methods)
             end
 
@@ -96,7 +96,7 @@ module ActiveRecord
             alias_method :instance_of?, :is_a?
             alias_method :kind_of?, :is_a?
 
-            protected
+            private
 
             define_method "#{association_name}_must_be_valid" do
               unless send(association_name).valid?
@@ -134,11 +134,9 @@ module ActiveRecord
           # inverse mode: each of the subclasses has_one superclass
 
           case @acts_as_superclass_of
-          when Hash
-            # nothing
           when Array
             @acts_as_superclass_of = Hash[*@acts_as_superclass_of.collect {|v| [v,{}]}.flatten]
-          else
+          when !Hash
             @acts_as_superclass_of = {@acts_as_superclass_of => {}}
           end
 

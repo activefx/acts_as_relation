@@ -10,7 +10,7 @@ describe "has many submodels" do
     let(:entity) { Entity.create(name: 'Other Co', structure: 'C Corp') }
     let(:invalid_entity) { Entity.new }
 
-    context "#acts_as_other_model?" do
+    context "::acts_as_other_model?" do
 
       it "returns true when the relationship is defined" do
         expect(Entity.acts_as_other_model?).to be_true
@@ -18,7 +18,7 @@ describe "has many submodels" do
 
     end
 
-    context "#acts_as_model_name" do
+    context "::acts_as_model_name" do
 
       it "returns the supermodel name for has_one submodel definitions" do
         expect(Entity.acts_as_model_name).to eq :organization
@@ -26,7 +26,7 @@ describe "has many submodels" do
 
     end
 
-    context "#is_a?" do
+    context "::is_a?" do
 
       it "returns true when it is an instance of the same class" do
         expect(entity.is_a? Entity).to be_true

@@ -140,7 +140,7 @@ describe "has one submodel" do
 
   end
 
-  context "#acts_as_other_model?" do
+  context "::acts_as_other_model?" do
 
     it "returns true when an acts_as relationship is defined" do
       expect(Pen.acts_as_other_model?).to be_true
@@ -152,7 +152,7 @@ describe "has one submodel" do
 
   end
 
-  context "#acts_as_model_name" do
+  context "::acts_as_model_name" do
 
     it "returns the supermodel name" do
       expect(Pen.acts_as_model_name).to eq :product
@@ -160,7 +160,7 @@ describe "has one submodel" do
 
   end
 
-  context "#is_a?" do
+  context "::is_a?" do
 
     let(:ballpoint) { BallpointPen.new }
 
