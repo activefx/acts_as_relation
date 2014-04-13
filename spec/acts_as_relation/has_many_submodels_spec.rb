@@ -81,7 +81,7 @@ describe "has many submodels" do
     it "does not destroy the supermodel on destruction" do
       organization_id = entity.as_organization.id
       entity.destroy
-      expect{ Organization.find organization_id }.not_to raise_error ActiveRecord::RecordNotFound
+      expect{ Organization.find organization_id }.not_to raise_error
     end
 
     context "from the supermodel" do
