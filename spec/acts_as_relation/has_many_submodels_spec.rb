@@ -42,6 +42,16 @@ describe "has many submodels" do
 
     end
 
+    context "::where" do
+
+      before { entity }
+
+      it "allows searching by supermodel attributes" do
+        expect(Entity.where(organizations: { name: 'Other Co' }).first).not_to be_nil
+      end
+
+    end
+
     it "can be persisted" do
       expect(entity.persisted?).to be_true
     end
@@ -138,7 +148,7 @@ describe "has many submodels" do
     let(:function) { Function.create(name: 'Big Co', category: 'retailer') }
     let(:invalid_function) { Function.new }
 
-    context "#acts_as_other_model?" do
+    context "::acts_as_other_model?" do
 
       it "returns true when the relationship is defined" do
         expect(Function.acts_as_other_model?).to be_true
@@ -146,7 +156,7 @@ describe "has many submodels" do
 
     end
 
-    context "#acts_as_model_name" do
+    context "::acts_as_model_name" do
 
       it "returns the supermodel name for has_many submodel definitions" do
         expect(Function.acts_as_model_name).to eq :organization
@@ -154,7 +164,7 @@ describe "has many submodels" do
 
     end
 
-    context "#is_a?" do
+    context "::is_a?" do
 
       it "returns true when it is an instance of the same class" do
         expect(function.is_a? Function).to be_true
@@ -166,6 +176,16 @@ describe "has many submodels" do
 
       it "returns false for unrelated classes" do
         expect(function.is_a? String).to be_false
+      end
+
+    end
+
+    context "::where" do
+
+      before { function }
+
+      it "allows searching by supermodel attributes" do
+        expect(Function.where(organizations: { name: 'Big Co' }).first).not_to be_nil
       end
 
     end

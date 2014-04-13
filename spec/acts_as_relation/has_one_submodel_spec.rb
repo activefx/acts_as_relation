@@ -194,6 +194,16 @@ describe "has one submodel" do
 
   end
 
+  context "::where" do
+
+    before { pen }
+
+    it "allows searching by supermodel attributes" do
+      expect(Pen.where(products: { name: 'RedPen' }).first).not_to be_nil
+    end
+
+  end
+
   it "can be persisted" do
     expect(pen.persisted?).to be_true
   end
