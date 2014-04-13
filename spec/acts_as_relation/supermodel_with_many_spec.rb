@@ -2,7 +2,11 @@ require "spec_helper"
 
 describe "supermodel with many submodels" do
 
-  let(:organization) { Organization.create(name: 'Some Co') }
+  let(:organization) do
+    Organization.create do |o|
+      o.name = 'Some Co'
+    end
+  end
 
   context "#specific" do
 
@@ -14,7 +18,8 @@ describe "supermodel with many submodels" do
     end
 
     it "returns the submodels" do
-      expect(Organization.first.specific.count).to eq 2
+      org = Organization.find(org_id)
+      expect(org.specific.count).to eq 2
     end
 
   end
