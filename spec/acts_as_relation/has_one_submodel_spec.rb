@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "has one submodel" do
+RSpec.describe "has one submodel" do
 
   let(:store) { Store.create name: 'Big Store' }
   let(:pen) { Pen.create name: 'RedPen', price: 0.8, color: 'red' }
@@ -74,7 +74,7 @@ describe "has one submodel" do
         let(:association) { klass.reflect_on_association(:as_product) }
 
         it "it is set to false" do
-          expect(association.options[:validate]).to be_false
+          expect(association.options[:validate]).to be_falsey
         end
 
       end
@@ -84,7 +84,7 @@ describe "has one submodel" do
         let(:association) { klass.reflect_on_association(:storeable) }
 
         it "is set to the specified option" do
-          expect(association.options[:validate]).to be_true
+          expect(association.options[:validate]).to be_truthy
         end
 
       end
@@ -143,11 +143,11 @@ describe "has one submodel" do
   context "::acts_as_other_model?" do
 
     it "returns true when an acts_as relationship is defined" do
-      expect(Pen.acts_as_other_model?).to be_true
+      expect(Pen.acts_as_other_model?).to be_truthy
     end
 
     it "returns false when an acts_as relationship is not defined" do
-      expect(Store.acts_as_other_model?).to be_false
+      expect(Store.acts_as_other_model?).to be_falsey
     end
 
   end
@@ -165,31 +165,31 @@ describe "has one submodel" do
     let(:ballpoint) { BallpointPen.new }
 
     it "returns true when it is an instance of the same class" do
-      expect(pen.is_a? Pen).to be_true
+      expect(pen.is_a? Pen).to be_truthy
     end
 
     it "returns true when it is an instance of the supermodel" do
-      expect(pen.is_a? Product).to be_true
+      expect(pen.is_a? Product).to be_truthy
     end
 
     it "returns true when it is an inherited instance of the same class" do
-      expect(ballpoint.is_a? Pen).to be_true
+      expect(ballpoint.is_a? Pen).to be_truthy
     end
 
     it "returns true when it is an inherited instance of the supermodel" do
-      expect(ballpoint.is_a? Product).to be_true
+      expect(ballpoint.is_a? Product).to be_truthy
     end
 
     it "returns false for unrelated classes" do
-      expect(pen.is_a? String).to be_false
+      expect(pen.is_a? String).to be_falsey
     end
 
     it "is aliased to kind_of?" do
-      expect(ballpoint.kind_of? Product).to be_true
+      expect(ballpoint.kind_of? Product).to be_truthy
     end
 
     it "is aliased to instance_of?" do
-      expect(ballpoint.instance_of? Product).to be_true
+      expect(ballpoint.instance_of? Product).to be_truthy
     end
 
   end
@@ -205,7 +205,7 @@ describe "has one submodel" do
   end
 
   it "can be persisted" do
-    expect(pen.persisted?).to be_true
+    expect(pen.persisted?).to be_truthy
   end
 
   it "reads its attributes" do
@@ -219,7 +219,7 @@ describe "has one submodel" do
 
   it "can track its attributes change states" do
     pen.color = 'orange'
-    expect(pen.color_changed?).to be_true
+    expect(pen.color_changed?).to be_truthy
   end
 
   it "can track its attributes change history" do
@@ -228,7 +228,8 @@ describe "has one submodel" do
   end
 
   it "validates its attributes" do
-    expect(invalid_pen).to have(1).error_on :color
+    invalid_pen.valid?
+    expect(invalid_pen.errors[:color]).not_to be_empty
   end
 
   it "raises NoMethodError for methods that do not exist on itself or the supermodel" do
@@ -259,7 +260,7 @@ describe "has one submodel" do
 
     it "inherits attribute dirty tracking change state" do
       pen.name = 'GreenPen'
-      expect(pen.name_changed?).to be_true
+      expect(pen.name_changed?).to be_truthy
     end
 
     it "inherits attribute dirty tracking history" do
@@ -273,7 +274,7 @@ describe "has one submodel" do
     end
 
     it "inherits methods" do
-      expect(pen.respond_to? :parent_method).to be_true
+      expect(pen.respond_to? :parent_method).to be_truthy
     end
 
     it "inherits validations" do

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "supermodel with many submodels" do
+RSpec.describe "supermodel with many submodels" do
 
   let(:organization) do
     Organization.create do |o|
@@ -27,7 +27,7 @@ describe "supermodel with many submodels" do
   context "#is_a?" do
 
     it "returns true when it is an instance of the same class" do
-      expect(organization.is_a? Organization).to be_true
+      expect(organization.is_a? Organization).to be_truthy
     end
 
   end

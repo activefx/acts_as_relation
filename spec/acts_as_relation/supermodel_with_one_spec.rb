@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "supermodel with one submodel" do
+RSpec.describe "supermodel with one submodel" do
 
   let(:pen) { Pen.create name: 'RedPen', price: 0.8, color: 'red' }
   let(:product) { Product.new }
@@ -30,7 +30,7 @@ describe "supermodel with one submodel" do
   context "#is_a?" do
 
     it "returns true when it is an instance of the same class" do
-      expect(product.is_a? Product).to be_true
+      expect(product.is_a? Product).to be_truthy
     end
 
   end

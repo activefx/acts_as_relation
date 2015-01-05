@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "has many submodels" do
+RSpec.describe "has many submodels" do
 
   let(:product) { Product.create name: 'money', price: 100.00 }
   let(:pen) { Pen.create name: 'RedPen', price: 0.8, color: 'red' }
@@ -13,7 +13,7 @@ describe "has many submodels" do
     context "::acts_as_other_model?" do
 
       it "returns true when the relationship is defined" do
-        expect(Entity.acts_as_other_model?).to be_true
+        expect(Entity.acts_as_other_model?).to be_truthy
       end
 
     end
@@ -29,15 +29,15 @@ describe "has many submodels" do
     context "::is_a?" do
 
       it "returns true when it is an instance of the same class" do
-        expect(entity.is_a? Entity).to be_true
+        expect(entity.is_a? Entity).to be_truthy
       end
 
       it "returns true when it is an instance of the supermodel" do
-        expect(entity.is_a? Organization).to be_true
+        expect(entity.is_a? Organization).to be_truthy
       end
 
       it "returns false for unrelated classes" do
-        expect(entity.is_a? String).to be_false
+        expect(entity.is_a? String).to be_falsey
       end
 
     end
@@ -53,7 +53,7 @@ describe "has many submodels" do
     end
 
     it "can be persisted" do
-      expect(entity.persisted?).to be_true
+      expect(entity.persisted?).to be_truthy
     end
 
     it "reads its attributes" do
@@ -67,7 +67,7 @@ describe "has many submodels" do
 
     it "can track its attributes change states" do
       entity.structure = 'LLC'
-      expect(entity.structure_changed?).to be_true
+      expect(entity.structure_changed?).to be_truthy
     end
 
     it "can track its attributes change history" do
@@ -76,7 +76,8 @@ describe "has many submodels" do
     end
 
     it "validates its attributes" do
-      expect(invalid_entity).to have(1).error_on :structure
+      invalid_entity.valid?
+      expect(invalid_entity.errors[:structure]).not_to be_empty
     end
 
     it "raises NoMethodError for methods the do not exist on itself or the supermodel" do
@@ -107,7 +108,7 @@ describe "has many submodels" do
 
       it "inherits attribute dirty tracking change state" do
         entity.name = 'Dead Co'
-        expect(entity.name_changed?).to be_true
+        expect(entity.name_changed?).to be_truthy
       end
 
       it "inherits attribute dirty tracking history" do
@@ -121,7 +122,7 @@ describe "has many submodels" do
       end
 
       it "inherits methods" do
-        expect(entity.respond_to? :parent_method).to be_true
+        expect(entity.respond_to? :parent_method).to be_truthy
       end
 
       it "inherits validations" do
@@ -151,7 +152,7 @@ describe "has many submodels" do
     context "::acts_as_other_model?" do
 
       it "returns true when the relationship is defined" do
-        expect(Function.acts_as_other_model?).to be_true
+        expect(Function.acts_as_other_model?).to be_truthy
       end
 
     end
@@ -167,15 +168,15 @@ describe "has many submodels" do
     context "::is_a?" do
 
       it "returns true when it is an instance of the same class" do
-        expect(function.is_a? Function).to be_true
+        expect(function.is_a? Function).to be_truthy
       end
 
       it "returns true when it is an instance of the supermodel" do
-        expect(function.is_a? Organization).to be_true
+        expect(function.is_a? Organization).to be_truthy
       end
 
       it "returns false for unrelated classes" do
-        expect(function.is_a? String).to be_false
+        expect(function.is_a? String).to be_falsey
       end
 
     end
@@ -191,7 +192,7 @@ describe "has many submodels" do
     end
 
     it "can be persisted" do
-      expect(function.persisted?).to be_true
+      expect(function.persisted?).to be_truthy
     end
 
     it "reads its attributes" do
@@ -205,7 +206,7 @@ describe "has many submodels" do
 
     it "can track its attributes change states" do
       function.category = 'seo'
-      expect(function.category_changed?).to be_true
+      expect(function.category_changed?).to be_truthy
     end
 
     it "can track its attributes change history" do
@@ -214,7 +215,8 @@ describe "has many submodels" do
     end
 
     it "validates its attributes" do
-      expect(invalid_function).to have(1).error_on :category
+      invalid_function.valid?
+      expect(invalid_function.errors[:category]).not_to be_empty
     end
 
     it "raises NoMethodError for methods the do not exist on itself or the supermodel" do
@@ -240,7 +242,7 @@ describe "has many submodels" do
 
       it "inherits attribute dirty tracking change state" do
         function.name = 'Dead Co'
-        expect(function.name_changed?).to be_true
+        expect(function.name_changed?).to be_truthy
       end
 
       it "inherits attribute dirty tracking history" do
@@ -254,7 +256,7 @@ describe "has many submodels" do
       end
 
       it "inherits methods" do
-        expect(function.respond_to? :parent_method).to be_true
+        expect(function.respond_to? :parent_method).to be_truthy
       end
 
       it "inherits validations" do

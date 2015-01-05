@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveRecord::ActsAsRelation do
+RSpec.describe ActiveRecord::ActsAsRelation do
 
   it "adds the acts_as class method to ActiveRecord models" do
     expect(GenericModel).to respond_to :acts_as
